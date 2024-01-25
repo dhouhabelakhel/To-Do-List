@@ -24,14 +24,16 @@
     </div>
     <script>
         var allTasks=[];
+      
         function createtask(content,date){
         const tasks=document.getElementById('tasks');
         const newtask_container=document.createElement('div');
         newtask_container.id='newtask_container';
-        newtask_container.innerHTML=`<input type='checkbox' name='taskcheck' id='taskcheck' onchange='taskDone(this)'>
-     <div id='task'>
+        newtask_container.innerHTML=`
+      <input type='checkbox' name='taskcheck' id='taskcheck' onchange='taskDone(this)'>
+      <div id='task'>
       <p id='taskcontent'>${content}</p>
-      <input type='date'  id='datechange' value='${date}'>
+      <input type='date' onchange="editDate(this)"  id='datechange' value='${date}'>
       </div>
       <input type='button' value='Edit' onclick='edit(this)'>
       <input type='button' value='delete' onclick='ondelete(this)'>`;
@@ -44,7 +46,8 @@
       function addTask(content,date){
       let newtask={
         content:content,
-        date:date
+        date:date,
+        etat:false
       }
       allTasks.push(newtask);
       }
@@ -52,7 +55,9 @@
       function gettasks(){
         var tasksbylocalstorage=localStorage.getItem("session");
         if(tasksbylocalstorage){
-        allTasks.unshift(tasksbylocalstorage);     
+          JSON.parse(tasksbylocalstorage).forEach(task=>{
+            addTask(task.content,task.date)
+         });
         allTasks.forEach(element => {
           createtask(element.content,element.date)
         });   }
@@ -60,32 +65,67 @@
       function add(){
   addTask(document.getElementById('toDotask').value,document.getElementById('date').value);
   createtask(document.getElementById('toDotask').value,document.getElementById('date').value)
-
 }
+
 
 function ondelete(button){
 const taskDelete=button.parentNode;
+const indexToDelete = Array.from(taskDelete.parentNode.children).indexOf(taskDelete);
+if(indexToDelete!=-1){
+  allTasks.splice(indexToDelete,1);
+  localStorage.setItem("session",JSON.stringify(allTasks))
 document.getElementById('tasks').removeChild(taskDelete);
+
+}
+
+
 }
 function taskDone(task){
   const taskDone=task.parentNode.querySelector("#task");
-  let isDone = taskDone.classList.contains("taskDone");
-  if (isDone) {
-    taskDone.classList.remove("taskDone");
+  const taskUpdate=task.parentNode;
+  const indexTask=Array.from(taskUpdate.parentNode.children).indexOf(taskUpdate);
+  let isDone = allTasks[indexTask].etat;
+ console.log(indexTask);
+  if (!isDone) {
+    taskDone.classList.add("taskDone");
+   
   }
   else{
-    taskDone.classList.add("taskDone"); 
+    taskDone.classList.remove("taskDone"); 
   }
+  allTasks[indexTask].etat=!isDone;
+  localStorage.setItem("session",JSON.stringify(allTasks))
 
 }
 function edit(text){
+ let updatedText=text.parentNode;
+const indexToUpdate = Array.from(updatedText.parentNode.children).indexOf(updatedText);
 const editText=text.parentNode.querySelector('#taskcontent');
 const editZone=text.parentNode.querySelector('#task');
 editText.contentEditable="true";
 editText.focus();
-editZone.addEventListener('mouseleave',()=>{
-  editText.contentEditable="false";
+
+editZone.addEventListener('input',()=>{
+  localStorage.setItem("session",JSON.stringify(allTasks))
+
+  allTasks[indexToUpdate].content=editText.innerText;
 })
+editZone.addEventListener('blur',()=>{
+  editText.contentEditable="false";
+
+})
+}
+function editDate(calender){
+let updatedDate=calender.parentNode.parentNode;
+const indextoUpdate=Array.from(updatedDate.parentNode.children).indexOf(updatedDate);
+console.log(indextoUpdate);
+const newDate=calender.value;
+if(indextoUpdate!=-1){
+  allTasks[indextoUpdate].date=newDate;
+  localStorage.setItem("session",JSON.stringify(allTasks));
+
+}
+
 }
 function clearAll(){
   localStorage.clear();
