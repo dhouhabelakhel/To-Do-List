@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do List</title>
+  </head>
+  <style>
+    .taskDone{
+      text-decoration: line-through;
+    }
+   
+  </style>
+  <body>
+    <div id="app"></div>
+    <div class="toDo-container">
+      <input type="text" name="toDotask" id="toDotask">
+      <input type="date" name="date" id="date">
+      <input type="button" value="Add" onclick="add()">
+           <div class='tasks' id="tasks">
+           </div>
+    </div>
+    <script>
+      
+function add(){
+  const tasks=document.getElementById('tasks');
+  const Innertask=document.getElementById('toDotask').value;
+  const newtask_container=document.createElement('div');
+  const date=document.getElementById('date').value;
+  newtask_container.id='newtask_container';
+  newtask_container.innerHTML=`<input type='checkbox' name='taskcheck' id='taskcheck' onchange='taskDone(this)'>
+  <div id='task'>
+  <p id='taskcontent'>${Innertask}</p>
+  <b>${date}</b>
+  </div>
+  <input type='button' value='Edit' onclick='edit()'>
+  <input type='button' value='delete' onclick='ondelete(this)'>`;
+
+    tasks.appendChild(newtask_container);
+    document.getElementById('toDotask').value='';
+
+}
+function ondelete(button){
+const taskDelete=button.parentNode;
+document.getElementById('tasks').removeChild(taskDelete);
+}
+function taskDone(task){
+  const taskDone=task.parentNode.querySelector("#task");
+  let isDone = taskDone.classList.contains("taskDone");
+  if (isDone) {
+    taskDone.classList.remove("taskDone");
+  }
+  else{
+    taskDone.classList.add("taskDone"); 
+  }
+
+}
+    </script>
+    <script type="module" src="/main.js">
+ 
+    </script>
+  </body>
+</html>
