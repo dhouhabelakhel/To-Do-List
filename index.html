@@ -10,9 +10,9 @@
     .taskDone{
       text-decoration: line-through;
     }
-   
+  
   </style>
-  <body>
+  <body onload="gettasks()">
     <div id="app"></div>
     <div class="toDo-container">
       <input type="text" name="toDotask" id="toDotask">
@@ -20,27 +20,49 @@
       <input type="button" value="Add" onclick="add()">
            <div class='tasks' id="tasks">
            </div>
+           <input type="button" value="clear" onclick="clearAll()">
     </div>
     <script>
-      
-function add(){
-  const tasks=document.getElementById('tasks');
-  const Innertask=document.getElementById('toDotask').value;
-  const newtask_container=document.createElement('div');
-  const date=document.getElementById('date').value;
-  newtask_container.id='newtask_container';
-  newtask_container.innerHTML=`<input type='checkbox' name='taskcheck' id='taskcheck' onchange='taskDone(this)'>
-  <div id='task'>
-  <p id='taskcontent'>${Innertask}</p>
-  <b>${date}</b>
-  </div>
-  <input type='button' value='Edit' onclick='edit()'>
-  <input type='button' value='delete' onclick='ondelete(this)'>`;
-
-    tasks.appendChild(newtask_container);
+        var allTasks=[];
+        function createtask(content,date){
+        const tasks=document.getElementById('tasks');
+        const newtask_container=document.createElement('div');
+        newtask_container.id='newtask_container';
+        newtask_container.innerHTML=`<input type='checkbox' name='taskcheck' id='taskcheck' onchange='taskDone(this)'>
+     <div id='task'>
+      <p id='taskcontent'>${content}</p>
+      <input type='date'  id='datechange' value='${date}'>
+      </div>
+      <input type='button' value='Edit' onclick='edit(this)'>
+      <input type='button' value='delete' onclick='ondelete(this)'>`;
+     tasks.appendChild(newtask_container);
     document.getElementById('toDotask').value='';
 
+    localStorage.setItem("session",JSON.stringify(allTasks) )
+      }
+
+      function addTask(content,date){
+      let newtask={
+        content:content,
+        date:date
+      }
+      allTasks.push(newtask);
+      }
+ 
+      function gettasks(){
+        var tasksbylocalstorage=localStorage.getItem("session");
+        if(tasksbylocalstorage){
+        allTasks.unshift(tasksbylocalstorage);     
+        allTasks.forEach(element => {
+          createtask(element.content,element.date)
+        });   }
+      }
+      function add(){
+  addTask(document.getElementById('toDotask').value,document.getElementById('date').value);
+  createtask(document.getElementById('toDotask').value,document.getElementById('date').value)
+
 }
+
 function ondelete(button){
 const taskDelete=button.parentNode;
 document.getElementById('tasks').removeChild(taskDelete);
@@ -55,6 +77,20 @@ function taskDone(task){
     taskDone.classList.add("taskDone"); 
   }
 
+}
+function edit(text){
+const editText=text.parentNode.querySelector('#taskcontent');
+const editZone=text.parentNode.querySelector('#task');
+editText.contentEditable="true";
+editText.focus();
+editZone.addEventListener('mouseleave',()=>{
+  editText.contentEditable="false";
+})
+}
+function clearAll(){
+  localStorage.clear();
+  allTasks=[];
+  document.getElementById('tasks').innerHTML="";
 }
     </script>
     <script type="module" src="/main.js">
