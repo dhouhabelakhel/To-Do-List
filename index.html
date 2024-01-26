@@ -13,6 +13,8 @@
   
   </style>
   <body onload="gettasks()">
+    <canvas class="webgl"></canvas>
+
     <div id="app"></div>
     <div class="toDo-container">
       <input type="text" name="toDotask" id="toDotask">
@@ -22,6 +24,7 @@
            </div>
            <input type="button" value="clear" onclick="clearAll()">
     </div>
+  
     <script>
         var allTasks=[];
       
@@ -133,8 +136,7 @@ function clearAll(){
   document.getElementById('tasks').innerHTML="";
 }
     </script>
-    <script type="module" src="/main.js">
- 
-    </script>
+   <script type="module" src="/main.js">
+  </script>
   </body>
 </html>
