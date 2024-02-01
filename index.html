@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To Do List</title>
   </head>
@@ -13,9 +14,7 @@
   
   </style>
   <body onload="gettasks()">
-    <canvas class="webgl"></canvas>
-
-    <div id="app"></div>
+    <div class="container">
     <div class="toDo-container">
       <input type="text" name="toDotask" id="toDotask">
       <input type="date" name="date" id="date">
@@ -24,7 +23,7 @@
            </div>
            <input type="button" value="clear" onclick="clearAll()">
     </div>
-  
+  </div>
     <script>
         var allTasks=[];
       
