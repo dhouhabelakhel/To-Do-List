@@ -1,3 +1,148 @@
 body{
-background-color:black;
+background-color:#0F0F0F;
+overflow-x: hidden;
+}
+canvas{
+    width: 10%;
+    height: 10%;
+}
+.taskDone{
+    text-decoration: line-through;
+  }
+  #quote{
+    margin-left: 20%;
+    margin-top: 5%;
+  }
+.container{
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    margin-top: 1%;
+    padding: 10%;
+    margin-left: 15%;
+}
+.add_container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 70%;
+}
+.add_container input[type="text"],
+.add_container input[type="date"],
+.add_container input[type="button"] {
+  margin-right: 15px;
+  padding: 8px;
+  border: 1px solid #F0E68C;
+  border-radius: 4px;
+  margin: 5%;
+}
+input[type="button"]{
+    width: 6rem;
+}
+.add_container input[type="button"] {
+    cursor: pointer;
+  }
+ input,#taskcheck{
+ margin: 2%;
+ padding: 1%;
+ background-color:#556B2F;
+ color:#F0E68C ;
+ font-size: large;
+ font-weight: bolder;
+ box-shadow: 0 2px 4px rgba(240, 230, 140, 0.9); 
+}
+input[type='checkbox'] {
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px; 
+    height: 20px;
+    border: 2px solid #F0E68C; 
+    border-radius: 4px; 
+    outline: none; 
+    position: relative;
+  }
+  
+  
+  input[type='checkbox']:checked::before {
+    content: '\2713';
+    position: absolute; 
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    font-size: 16px; 
+    color: #F0E68C; 
+  }
+  
+p{
+    margin: 2%;
+    padding: 1%;
+    color:#F0E68C ;
+    font-size: xx-large;
+    font-weight: bolder;
+    text-shadow: 0 2px 4px rgba(240, 230, 140, 0.9); 
+    animation: animate 1s ease-in-out infinite;
+
+}
+.singl_task,#task{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+
+}
+.singl_task,#task{
+    width: 70%;
+    margin: 1%;
+}
+.singl_task input,#task input,#task p{
+margin: 5%;
+padding: 1%;
+}
+  input[type="text"],
+  input[type="date"],
+  input[type="button"] ,
+  input[type="checkbox"]{
+    padding: 10px;
+    border: 1px solid #F0E68C;
+    border-radius: 4px;
+    animation: animate 1s ease-in-out infinite;
+  }
+  input[type="text"]:hover,
+  input[type="date"]:hover,
+  input[type="button"]:hover,
+  input[type="checkbox"]:hover{
+    background-color: #6B8E3E;
+  }
+  input[type="button"]:hover {
+    background-color: #6B8E3E;
+  }
+ button{
+    color: #556B2F;
+    cursor: pointer;
+    background-color: #0F0F0F;
+    border: transparent;
+    animation: animate 1s ease-in-out infinite;
+
+  }
+  i{
+    font-size: 24px;
+
+  }
+  i:hover{
+    color:  #6B8E3E;;
+  }
+  .clear{
+    position: absolute;
+    margin-left: 20%;
+  }
+ 
+@keyframes animate {
+   
+    0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
 }
